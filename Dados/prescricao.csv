@@ -1,0 +1,11 @@
+idprescricao;idmedico;idutente;nomemed;inicio_toma;duracao_presc;dose_diaria
+p1;1;u1;Cardipril 10mg;21/05/2023;6 meses;1cp/dia
+p2;1;u1;Edarclor 40mg+25mg;21/05/2023;6 meses;1cp/dia
+p3;1;u1;Edarbi 20mg;21/05/2023;6 meses;1cp/dia
+p4;2;u2;Inderal 10mg;29/04/2021;12 meses;2cp/dia em SOS
+p5;3;u4;ADT 10mg;15/02/2017;6 meses;1cp/dia
+p6;2;u3;Rinialer 10mg;01/07/2019;3 meses;1cp/dia
+p7;1;u1;Cardipril 10mg;02/07/2021;6 meses;1cp/dia
+p8;1;u1;Edarbi 20mg;02/07/2021;6 meses;1cp/dia
+p9;1;u1;Cardipril 10mg;03/05/2022;6 meses;1cp/dia
+p10;2;u4;Brufen 400mg;04/05/2020;2 meses;2cp/dia

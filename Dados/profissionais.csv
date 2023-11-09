@@ -1,4 +1,6 @@
-id;nome;contacto;especialidade
-1;Manuel Ferreira;931338769;Cardiologia
-2;Anabela Tavares;923855981;Clinica geral
-3;Fernando Melo;910757881;Neurologia
+id;type;nome;contacto;especialidade
+1;medico;Manuel Ferreira;931338769;Cardiologia
+2;medico;Anabela Tavares;923855981;Clinica geral
+3;medico;Fernando Melo;910757881;Neurologia
+4;enfermeiro;Joana Marques;918751466;0
+5;auxiliar;Fatima Gonçalves;924568710;0

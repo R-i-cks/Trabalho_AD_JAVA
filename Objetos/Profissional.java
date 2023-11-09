@@ -3,6 +3,8 @@ package Objetos;
 import java.io.Serializable;
 import java.util.List;
 public class Profissional extends Person implements Serializable {
+
+    private String type;
     private String especialidade;
     private List<Consulta> Consultas;
     private List<Medicoes> Medicoes;
@@ -10,6 +12,14 @@ public class Profissional extends Person implements Serializable {
 
     public void setPrescricoes(List<Prescricao> prescricoes) {
         Prescricoes = prescricoes;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<Prescricao> getPrescricoes() {

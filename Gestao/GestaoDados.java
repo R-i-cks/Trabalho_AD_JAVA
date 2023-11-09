@@ -14,6 +14,7 @@ public class GestaoDados {
     private List<Profissional> profissionais;
     private Map<String, Utente> utentesPorId;
     private Map<String, Profissional> medicosPorId;
+    private List<Consulta> consultas;
 
 
 
@@ -54,7 +55,6 @@ public class GestaoDados {
         if (lc.size()==0) {
             throw new ObjectNotFound();
         }
-
         return lc;
     }
 
@@ -136,9 +136,8 @@ public class GestaoDados {
         return lp;
     }
 
-    public List<Consulta> encontraConsultas_upcs(String UPCS) {
-        for (Consulta : ConsultaLi)
-    }
+
+
 
 
 

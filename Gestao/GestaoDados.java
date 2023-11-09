@@ -125,6 +125,36 @@ public class GestaoDados {
         return lp;
     }
 
+    public boolean alterarNome_utente(String id, String nome) throws ObjectNotFound {
+        boolean res = false;
+        try {
+            for (Utente u : utentes) {
+                if (u.getId().equals(id)) {
+                    u.setNome(nome);
+                    res = true;
+                }
+            }
+        }
+        catch (ObjectNotFound){
+            throw new ObjectNotFound();
+        }
+        return res;
+    }
+
+    public  alterarGenero_utente(String id, String genero) throws ObjectNotFound {
+        try {
+            for (Utente u : utentes) {
+                if (u.getId().equals(id)) {
+                    u.setId(nome);
+                }
+            }
+        }
+        catch (ObjectNotFound){
+            throw new ObjectNotFound();
+        };
+
+    }
+    }
 
 
 
@@ -132,6 +162,6 @@ public class GestaoDados {
 
 
 
-}
+
 
 

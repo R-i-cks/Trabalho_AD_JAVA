@@ -110,18 +110,7 @@ public class GestaoDados {
         return lc;
     }
 
-    public List<Medicoes> encontraMedicoes_medico(String id) throws ObjectNotFound {
-        List<Medicoes> lm = new ArrayList<>();
-        for (Profissional p: profissionais) {
-            if (p.getId().equals(id)){
-                lm.add((Medicoes) p.getMedicoes());
-            }
-        }
-        if (lm.size()==0) {
-            throw new ObjectNotFound();
-        }
-        return lm;
-    }
+
 
     public List<Prescricao> encontraPrescricao_medico(String id) throws ObjectNotFound {
         List<Prescricao> lp = new ArrayList<>();
@@ -135,6 +124,7 @@ public class GestaoDados {
         }
         return lp;
     }
+
 
 
 

@@ -6,42 +6,40 @@ public class Utente extends Person implements Serializable {
 
     private String data_nascimento;
     private String genero;
-    private List<Exames> Exames;
 
+    private List<Exame> Exames;
     private List<Consulta> Consultas;
-    private List<Prescricao> Prescricao;
+    private List<Prescricao> Prescricoes;
+    private List<Medicao> Medicoes;
 
-    private List<Medicoes> Medicoes;
 
-    public Objetos.Medicoes getMedicoes() {
-        return (Objetos.Medicoes) Medicoes;
-    }
+    public List<Medicao> getMedicoes() { return Medicoes; }
 
-    public void setMedicoes(List<Medicoes> medicoes) {
+    public void setMedicoes(List<Medicao> medicoes) {
         Medicoes = medicoes;
     }
 
-    public Objetos.Prescricao getPrescricao() {
-        return (Objetos.Prescricao) Prescricao;
+    public List<Prescricao> getPrescricoes() {
+        return Prescricoes;
     }
 
-    public void setPrescricao(List<Prescricao> prescricao) {
-        Prescricao = prescricao;
+    public void setPrescricoes(List<Prescricao> prescricoes) {
+        Prescricoes = prescricoes;
     }
 
-    public void setConsultas(List<Consulta> Consultas) {
-        Consultas = Consultas;
+    public void setConsultas(List<Consulta> consultas) {
+        Consultas = consultas;
     }
 
-    public Consulta getConsultas() {
-        return (Consulta) Consultas;
+    public List<Consulta> getConsultas() {
+        return  Consultas;
     }
 
-    public Objetos.Exames getExames() {
-        return (Objetos.Exames) Exames;
+    public List<Exame> getExames() {
+        return Exames;
     }
 
-    public void setExames(List<Exames> exames) {
+    public void setExames(List<Exame> exames) {
         Exames = exames;
     }
 
@@ -49,8 +47,8 @@ public class Utente extends Person implements Serializable {
         return data_nascimento;
     }
 
-    public void setData_nascimento(String data_nascimento) {
-        this.data_nascimento = data_nascimento;
+    public void setData_nascimento(String Data_nascimento) {
+        this.data_nascimento = Data_nascimento;
     }
 
     public String getGenero() {

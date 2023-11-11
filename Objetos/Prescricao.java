@@ -6,6 +6,8 @@ public class Prescricao {
     private String inicio_toma;
     private String duracao;
     private String dose_diaria;
+    private String id_medico;
+    private String id_utente;
 
     public String getIdp() {
         return idp;
@@ -46,4 +48,8 @@ public class Prescricao {
     public void setDose_diaria(String dose_diaria) {
         this.dose_diaria = dose_diaria;
     }
+    public String getId_medico(){return id_medico;}
+    public void setId_medico(String id_medico){this.id_medico = id_medico;}
+    public String getId_utente(){return id_utente;}
+    public void setId_utente(String id_utente){this.id_utente = id_utente;}
 }

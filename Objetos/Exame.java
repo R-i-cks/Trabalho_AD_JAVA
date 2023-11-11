@@ -7,6 +7,7 @@ public class Exame implements Serializable {
     private String data_realizacao;
     private String nome_exame;
     private String resultado;
+    private String id_utente;
 
     public String getId_exame() {
         return id_exame;
@@ -39,4 +40,7 @@ public class Exame implements Serializable {
     public void setResultado(String resultado) {
         this.resultado = resultado;
     }
+
+    public String getId_utente(){return id_utente;}
+    public void setId_utente(String id_utente){this.id_utente = id_utente;}
 }

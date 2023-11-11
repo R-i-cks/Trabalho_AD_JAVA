@@ -4,17 +4,18 @@ import java.io.Serializable;
 
 public class Medicao implements Serializable {
 
-    private String idmedicacao;
+    private String idmedicao;
     private String tipo;
     private String valor;
     private String unidades;
+    private String id_utente;
 
-    public String getIdmedicacao() {
-        return idmedicacao;
+    public String getIdmedicao() {
+        return idmedicao;
     }
 
-    public void setIdmedicacao(String idmedicacao) {
-        this.idmedicacao = idmedicacao;
+    public void setIdmedicao(String idmedicao) {
+        this.idmedicao = idmedicao;
     }
 
     public String getTipo() {
@@ -40,5 +41,6 @@ public class Medicao implements Serializable {
     public void setUnidades(String unidades) {
         this.unidades = unidades;
     }
-
+    public String getId_utente(){return id_utente;}
+    public void setId_utente(String id_utente){this.id_utente = id_utente;}
 }

@@ -12,6 +12,14 @@ import java.util.Map;
 public class GestaoDados {
     private List<Utente> utentes;
     private List<Profissional> profissionais;
+
+    //
+    private List<Consulta>  consultas;
+    private List<Exame> exames;
+    private List<Medicao> medicaos;
+    private List<Prescricao> prescricaos;
+
+    //
     private Map<String, Utente> utentesPorId;
     private Map<String, Profissional> profissionaisPorId;
     private Map<String, Familiar> familiaresPorId;
@@ -25,6 +33,11 @@ public class GestaoDados {
         this.profissionaisPorId = new HashMap<>();
         this.profissionais = new ArrayList<>();
         this.familiaresPorId = new HashMap<>();
+
+        this.consultas = new ArrayList<>();
+        this.exames = new ArrayList<>();
+        this.medicaos = new ArrayList<>();
+        this.prescricaos = new ArrayList<>();
     }
 
 
@@ -54,6 +67,27 @@ public class GestaoDados {
         else {
             throw new IdAlreadyExists();
         }
+    }
+
+    //acho q nao ha exceptions (a nao ser que seja para por cenas relacionadas com as datas e assim?
+    //Secalhar de serem so os medicos a darem consultas ou algo do genero?
+    //e preciso meter na interface e depois importar para o cliente
+    public void addConsulta(Consulta c){
+        consultas.add(c);
+
+    }
+
+    public void addExame(Exame e){
+        exames.add(e);
+    }
+
+    public void addPrescricao(Prescricao pre){
+        prescricaos.add(pre);
+
+    }
+
+    public void addMedicao(Medicao medicao){
+        medicaos.add(medicao);
     }
 
     public List<Consulta> encontraConsultas_utente(String id) throws ObjectNotFound {

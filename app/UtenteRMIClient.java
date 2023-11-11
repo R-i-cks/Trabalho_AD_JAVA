@@ -4,7 +4,16 @@ package app;
 import Objetos.*;
 import Gestao.GestaoDados;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.List;
 
 public class UtenteRMIClient {
 
@@ -132,7 +141,7 @@ public class UtenteRMIClient {
         BufferedReader br4 = null;
         try {
             int cnt4 = 0;
-            br5 = new BufferedReader(
+            br4 = new BufferedReader(
                     new FileReader("../Dados/prescricao.csv"));
             String header = br4.readLine();
             if (header != null) {
@@ -166,6 +175,40 @@ public class UtenteRMIClient {
         }
 
 
+        BufferedReader br5 = null;
+        try {
+            int cnt5 = 0;
+            br5 = new BufferedReader(
+                    new FileReader("../Dados/medicoes.csv"));
+            String header = br5.readLine();
+            if (header != null) {
+                String[] columns = header.split(";");
+                System.out.println(Arrays.toString(columns));
+            }
+            String line = null;
+            do {
+                line = br5.readLine();
+                if (line != null) {
+                    String[] columns = line.split(";");
+                    if (columns.length != 0) {
+                        Medicao medicao = new Medicao();
+                        medicao.setIdmedicao(columns[0]);
+                        medicao.setId_utente(columns[1]);
+                        medicao.setTipo(columns[2]);
+                        medicao.setValor(columns[3]);
+                        medicao.setUnidades(columns[4]);
+
+                        gu.addMedicao(medicao);
+                        cnt5++;
+                    }
+                    System.out.println("OBJECTO: " + cnt5);
+                }
+            } while (line != null && cnt5 < 100000);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

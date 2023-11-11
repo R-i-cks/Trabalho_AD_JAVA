@@ -42,14 +42,14 @@ public class FamiliarRMIClient {
              * Leitura linha a linha do ficheiro e criação de um objeto por cada linha
              */
             String line = null;
-            do{
+            do {
                 line = br.readLine();
                 if (line != null) {
                     /**
                      * Separação da linha em partes separadas por ";"
                      */
                     String[] columns = line.split(";");
-                    if (columns.length != 0){
+                    if (columns.length != 0) {
                         //Medicamento M = new Medicamento(columns);
                         /**
                          * Criação do objeto medicamento
@@ -67,18 +67,20 @@ public class FamiliarRMIClient {
                          * Inserção do medicamento no gestor de medicamentos
                          */
                         gf.addFamiliar(f);
-                        cnt ++;
+                        cnt++;
                     }
-                    System.out.println("OBJECTO: "+ cnt);
+                    System.out.println("OBJECTO: " + cnt);
                     /*
                     Scanner sc = new Scanner(System.in);
                     System.out.println("GET CHAR");
                     String l = sc.nextLine();
 */
                 }
-            }while (line != null && cnt <100000);
+            } while (line != null && cnt < 100000);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+}

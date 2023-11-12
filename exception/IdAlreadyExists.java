@@ -1,4 +1,4 @@
-package exception;
+package Trabalho_AD_JAVA.exception;
 
 import java.rmi.RemoteException;
 

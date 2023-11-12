@@ -1,15 +1,18 @@
-package Gestao;
+package Trabalho_AD_JAVA.Gestao;
 
-import Objetos.*;
-import exception.IdAlreadyExists;
-import exception.ObjectNotFound;
+import Trabalho_AD_JAVA.Objetos.*;
+import Trabalho_AD_JAVA.app.GestaoUtentesInterface;
+import Trabalho_AD_JAVA.exception.IdAlreadyExists;
+import Trabalho_AD_JAVA.exception.ObjectNotFound;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GestaoDados {
+public class GestaoDados implements Serializable, GestaoUtentesInterface {
+    private static final long serialVersionUID = 2271773781997413728L;
     private List<Utente> utentes;
     private List<Profissional> profissionais;
 
@@ -34,10 +37,15 @@ public class GestaoDados {
         this.profissionais = new ArrayList<>();
         this.familiaresPorId = new HashMap<>();
 
+        this.readExternalData();
+
         this.consultas = new ArrayList<>();
         this.exames = new ArrayList<>();
         this.medicaos = new ArrayList<>();
         this.prescricaos = new ArrayList<>();
+    }
+
+    private void readExternalData() {
     }
 
 
@@ -141,12 +149,11 @@ public class GestaoDados {
 
     public List<Consulta> encontraConsultas_medico(String id) throws ObjectNotFound {
         List<Consulta> lc = new ArrayList<>();
-        for (Profissional p: profissionais) {
-            if (p.getId().equals(id)){
-                lc.add((Consulta) p.getConsultas());
-            }
+        Medico resultado = (Medico) profissionaisPorId.get(id);
+        if (resultado != null) {                                 // se encontrou, atualiza genero
+            lc = resultado.getConsultas();
         }
-        if (lc.size()==0) {
+        else {
             throw new ObjectNotFound();
         }
         return lc;
@@ -154,16 +161,15 @@ public class GestaoDados {
 
 
     public List<Prescricao> encontraPrescricao_medico(String id) throws ObjectNotFound {
-        List<Prescricao> lp = new ArrayList<>();
-        for (Profissional p: profissionais) {
-            if (p.getId().equals(id)){
-                lp.add((Prescricao) p.getMedicoes());
-            }
+        List<Prescricao> lc = new ArrayList<>();
+        Medico resultado = (Medico) profissionaisPorId.get(id);
+        if (resultado != null) {                                 // se encontrou, atualiza genero
+            lc = resultado.getPrescricoes();
         }
-        if (lp.size()==0) {
+        else {
             throw new ObjectNotFound();
         }
-        return lp;
+        return lc;
     }
 
     public boolean alterarNome_utente(String id, String nome) throws ObjectNotFound {
@@ -178,6 +184,8 @@ public class GestaoDados {
         }
         return res;
     }
+
+
 
     public boolean alterarGenero_utente(String id, String genero) throws ObjectNotFound {
         boolean res;
@@ -231,9 +239,9 @@ public class GestaoDados {
         return res;
     }
 
-    public boolean alterarEspecialidade_Profissional(String id, String especialidade) throws ObjectNotFound {
+    public boolean alterarEspecialidade_Medico(String id, String especialidade) throws ObjectNotFound {
         boolean res;
-        Profissional resultado = profissionaisPorId.get(id);
+        Medico resultado = (Medico) profissionaisPorId.get(id);
         if (resultado != null) {
             resultado.setEspecialidade(especialidade);
             res = true;

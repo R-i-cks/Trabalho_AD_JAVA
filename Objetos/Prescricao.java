@@ -1,4 +1,4 @@
-package Objetos;
+package Trabalho_AD_JAVA.Objetos;
 
 public class Prescricao {
     private String idp;

@@ -6,12 +6,22 @@ import java.util.Date;
 
 public class Consulta implements Serializable {
     private String id_consulta;
-    private Date data;
+    private String data;
     private String hora;
     private String upcs;
 
     private String id_medico;
     private String id_utente;
+
+    public Consulta() {}
+    public Consulta(String id_consulta, String data, String hora, String upcs, String id_medico, String id_utente) {
+        this.id_consulta = id_consulta;
+        this.id_medico = id_medico;
+        this.id_utente = id_utente;
+        this.data = data;
+        this.hora = hora;
+        this.upcs = upcs;
+    }
 
     public String getId_consulta() {
         return id_consulta;
@@ -22,10 +32,10 @@ public class Consulta implements Serializable {
     }
 
     public String getData() {
-        return data.toString();
+        return data;
     }
 
-    public void setData(Date data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -54,10 +64,7 @@ public class Consulta implements Serializable {
 
     @Override
     public String toString() {
-        // Define o formato desejado
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
-        return "[Consulta > id: " + getId_consulta() + ", data: " + formato.format(data) + ", utente: " + id_utente + ", medico: " + id_medico + "]";
+        return "[Consulta > id: " + getId_consulta() + ", data: " + data + ", utente: " + id_utente + ", medico: " + id_medico + "]";
     }
 }
 

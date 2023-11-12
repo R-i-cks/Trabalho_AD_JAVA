@@ -10,6 +10,17 @@ public class Medicao implements Serializable {
     private String unidades;
     private String id_utente;
 
+    public Medicao(String idmedicao, String tipo, String valor, String unidades, String id_utente) {
+        this.id_utente=id_utente;
+        this.idmedicao=idmedicao;
+        this.tipo=tipo;
+        this.valor=valor;
+        this.unidades=unidades;
+    }
+
+    public Medicao() {
+    }
+
     public String getIdmedicao() {
         return idmedicao;
     }

@@ -67,7 +67,6 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
     public void addConsulta(Consulta c) throws IdAlreadyExists {
         if (!consultasPorId.containsKey(c.getId_consulta())) {
             consultasPorId.put(c.getId_consulta(), c);
-
             String idUtente = c.getId_utente();
             Utente u = utentesPorId.get(idUtente);
             u.addConsulta(c.getId_consulta());
@@ -78,6 +77,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         } else {
             throw new IdAlreadyExists();
         }
+        System.out.println(c);
     }
 
     public void addExame(Exame e) throws IdAlreadyExists {
@@ -331,21 +331,11 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
 
     public boolean alterarDataConsulta_utente(String idc, String data) throws ObjectNotFound {
         boolean res = false;
-
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date dataFormatada = null;
-        
-        try {
-            dataFormatada = formato.parse(data);
-        } catch (Exception e) {
-            System.out.println("A data inserida não é valida!");
-            return false;
-        }
         
         Consulta c = consultasPorId.get(idc);
 
         if (c != null) {
-            c.setData(dataFormatada);
+            c.setData(data);
             res = true;
         } else {
             throw new ObjectNotFound();

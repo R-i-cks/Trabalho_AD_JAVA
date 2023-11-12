@@ -57,6 +57,6 @@ public class Prescricao implements Serializable {
 
     @Override
     public String toString() {
-        return "[Prescricao > id: " + getIdp() + ", utente: " + id_utente + ", medico: " + id_medico + "]";
+        return "[Prescricao > id: " + getIdp() + ", utente: " + id_utente + ", medico: " + id_medico + ", medicamento: " + nome_medicamento + "]";
     }
 }

@@ -126,16 +126,7 @@ public class GestaoRMIServer {
                         c.setId_consulta(columns3[0]);
                         c.setId_medico(columns3[1]);
                         c.setId_utente(columns3[2]);
-
-                        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
-                        try {
-                            Date dataFormatada = formato.parse(columns3[3]);
-                            c.setData(dataFormatada);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
+                        c.setData(columns3[3]);
                         c.setHora(columns3[4]);
                         c.setUpcs(columns3[5]);
                         gd.addConsulta(c);

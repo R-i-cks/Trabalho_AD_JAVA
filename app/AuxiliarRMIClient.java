@@ -23,7 +23,7 @@ public class AuxiliarRMIClient {
         }
 
         try {
-            System.out.println(ga.alterarDataConsulta_utente("c3", "10/0bg7/1999"));
+            System.out.println(ga.alterarDataConsulta_utente("c3", "10/07/1999"));
         } catch (ObjectNotFound e) {
             System.out.println("Nao existe");
         }

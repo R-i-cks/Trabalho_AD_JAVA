@@ -1,9 +1,6 @@
 package Trabalho_AD_JAVA.app;
 
-import Trabalho_AD_JAVA.Objetos.Consulta;
-import Trabalho_AD_JAVA.Objetos.Exame;
-import Trabalho_AD_JAVA.Objetos.Medicao;
-import Trabalho_AD_JAVA.Objetos.Prescricao;
+import Trabalho_AD_JAVA.Objetos.*;
 import Trabalho_AD_JAVA.exception.IdAlreadyExists;
 import Trabalho_AD_JAVA.exception.ObjectNotFound;
 
@@ -24,4 +21,6 @@ public interface GestaoAuxiliarInterface extends Remote {
     public boolean alterarContacto_Familiar(String id, String contacto) throws ObjectNotFound;
     public void addConsulta(Consulta c) throws ObjectNotFound, IdAlreadyExists;
     public boolean alterarDataConsulta_utente(String idc, String data) throws ObjectNotFound;
+    public int consultasNumDadoPeriodo(String inicial, String dfinal);
+    public Medico medicoComMaisConsultas();
 }

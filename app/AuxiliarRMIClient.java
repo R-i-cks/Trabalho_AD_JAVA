@@ -4,6 +4,7 @@ package Trabalho_AD_JAVA.app;
 
 import Trabalho_AD_JAVA.Objetos.*;
 import Trabalho_AD_JAVA.Gestao.GestaoDados;
+import Trabalho_AD_JAVA.exception.IdAlreadyExists;
 import Trabalho_AD_JAVA.exception.ObjectNotFound;
 
 import java.net.MalformedURLException;
@@ -44,6 +45,8 @@ public class AuxiliarRMIClient {
                         "11 - Alterar o contacto de um familiar por id"+
                         "12 - Alterar o seu contacto\n" +
                         "13 - Alterar o seu nome\n" +
+                        "14 - Numero de consultas num dado periodo\n" +
+                        "15 - Medico com mais consultas\n" +
                         "0 - exit\n");
                 op = Integer.parseInt(scanner.nextLine());
 
@@ -105,8 +108,6 @@ public class AuxiliarRMIClient {
                         System.out.println(ga.alterarContacto_utente(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
-                    } catch (IdAlreadyExists e) {
-                        throw new RuntimeException(e);
                     }
                 } else if (op == 8) {
                     try {
@@ -128,8 +129,6 @@ public class AuxiliarRMIClient {
                         System.out.println(ga.alterarDataConsulta_utente(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
-                    } catch (IdAlreadyExists e) {
-                        throw new RuntimeException(e);
                     }
                 } else if (op == 10) {
                     try {
@@ -139,10 +138,8 @@ public class AuxiliarRMIClient {
                         System.out.println(ga.alterarNome_Familiar(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
-                    } catch (IdAlreadyExists e) {
-                        throw new RuntimeException(e);
                     }
-                    }else if (op == 11) {
+                }else if (op == 11) {
                         try {
                             System.out.println("\"Insira os dados da seguinte forme: id do familiar, novo contacto\"");
                             String info = scanner.nextLine();
@@ -169,7 +166,18 @@ public class AuxiliarRMIClient {
                                 System.out.println(ga.alterarNome_Profissional(dados[0], dados[1]));
                             } catch (ObjectNotFound e) {
                                 throw new RuntimeException(e);
-                }} else {System.out.println("Opção inválida! Tente de novo!");}
+                }
+                } else if (op ==14) {
+                    System.out.println("Insira o inicio do período:");
+                    String i = scanner.nextLine();
+                    System.out.println("Insira o fim do período:");
+                    String f = scanner.nextLine();
+                    System.out.println("Foram dadas "+ga.consultasNumDadoPeriodo(i,f) + " consultas, nesse intervalo de tempo.");
+                } else if (op==15) {
+                    System.out.println("O medico com mais consultas dadas é: " + ga.medicoComMaisConsultas());
+                }
+
+                else {System.out.println("Opção inválida! Tente de novo!");}
 
             } while (op != 0);
         } catch (Exception e) {

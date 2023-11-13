@@ -6,6 +6,7 @@ import Trabalho_AD_JAVA.exception.IdAlreadyExists;
 import Trabalho_AD_JAVA.exception.ObjectNotFound;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -276,6 +277,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
 
         return res;
     }
+
     public boolean alterarNome_Profissional(String id, String nome) throws ObjectNotFound {
         boolean res;
         Profissional resultado = profissionaisPorId.get(id);
@@ -332,7 +334,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
 
     public boolean alterarDataConsulta_utente(String idc, String data) throws ObjectNotFound {
         boolean res = false;
-        
+
         Consulta c = consultasPorId.get(idc);
 
         if (c != null) {
@@ -346,12 +348,12 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
     }
 
     public Medico medicoComMaisConsultas() {
-        int minimo=Integer.MAX_VALUE;
+        int max = -1;
         Medico resultado = null;
-        for (Medico m :medicosPorId.values()) {
-            if (m.getConsultas().size()<minimo) {
-                resultado=m;
-                minimo=m.getConsultas().size();
+        for (Medico m : medicosPorId.values()) {
+            if (m.getConsultas().size() > max) {
+                resultado = m;
+                max = m.getConsultas().size();
             }
         }
         return resultado;
@@ -359,19 +361,21 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
 
     public int consultasNumDadoPeriodo(String inicial, String dfinal) {
         int Num = 0;
-        for (Consulta c: consultasPorId.values()) {
-            String[] data= c.getData().split("/");
-            String[] i = inicial.split("/");
-            String[] f = dfinal.split("/");
-            if (Integer.parseInt(i[2]) <= Integer.parseInt(data[2]) && Integer.parseInt(data[2]) <= Integer.parseInt(f[2])) {
-                if (Integer.parseInt(i[1]) <= Integer.parseInt(data[1]) && Integer.parseInt(data[1]) <= Integer.parseInt(f[1])) {
-                    if (Integer.parseInt(i[0]) <= Integer.parseInt(data[0]) && Integer.parseInt(data[0]) <= Integer.parseInt(f[0])) {
-                        ++Num;
-                    }
-                }
-            }
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date datai = formato.parse(inicial);
+            Date dataf = formato.parse(dfinal);
+            for (Consulta c : consultasPorId.values()) {
+                String data = c.getData();
+                Date dataa = formato.parse(data);
+                if (datai.compareTo(dataa) <= 0 && dataa.compareTo(dataf)<=0) {
+                    ++Num;
+                } }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return Num;
     }
 }
+
 

@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 public class AuxiliarRMIClient {
 
@@ -74,33 +75,34 @@ public class AuxiliarRMIClient {
                     try {
                         System.out.println("Insira o id do utente:");
                         String idu = scanner.nextLine();
-                        System.out.println(gm.encontraPrescricoes_utente(idu));
+                        System.out.println(ga.encontraExames_utente(idu));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
                     }
                 } else if (op == 5) {
                     try {
-                        System.out.println("Insira o id do utente:");
-                        String idm = scanner.nextLine();
-                        System.out.println(gm.encontraMedicoes_utente(idm));
+                        System.out.println("Insira a informação sobre a forma id_utente, nome");
+                        String info = scanner.nextLine();
+                        String dados[] =info.split(",");
+                        System.out.println(ga.alterarNome_utente(dados[0], dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
                     }
                 } else if (op == 6) {
                     try {
-                        System.out.println("Insira o id do utente:");
-                        String idm = scanner.nextLine();
-                        System.out.println(gm.encontraExames_utente(idm));
+                        System.out.println("Insira a informação sobre a forma: id_utente, género");
+                        String info = scanner.nextLine();
+                        String dados[] =info.split(",");
+                        System.out.println(ga.alterarGenero_utente(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
                     }
                 } else if (op == 7) {
                     try {
-                        System.out.println("Insira os dados da seguinte forma: idconsulta, dataconsulta, horaconsulta, upcs, idmedico, idutente");
+                        System.out.println("Insira a informação sobre a forma: id_utente, contacto");
                         String info = scanner.nextLine();
                         String[] dados = info.split(", ");
-                        Consulta c = new Consulta(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
-                        gm.addConsulta(c);
+                        System.out.println(ga.alterarContacto_utente(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
                     } catch (IdAlreadyExists e) {
@@ -108,11 +110,11 @@ public class AuxiliarRMIClient {
                     }
                 } else if (op == 8) {
                     try {
-                        System.out.println("Insira os dados da seguinte forma: idprescricao, nome_medicamento, inicio da toma, duracao, dose diaria, idmedico, idutente");
+                        System.out.println("Insira os dados da seguinte forma: idconsulta, dataconsulta, horaconsulta, upcs, idmedico, idutente");
                         String info = scanner.nextLine();
                         String[] dados = info.split(", ");
-                        Prescricao p = new Prescricao(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6]);
-                        gm.addPrescricao(p);
+                        Consulta c = new Consulta(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
+                        ga.addConsulta(c);
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
                     } catch (IdAlreadyExists e) {
@@ -120,48 +122,54 @@ public class AuxiliarRMIClient {
                     }
                 } else if (op == 9) {
                     try {
-                        System.out.println("Insira os dados da seguinte forma: idmedicao, tipo, valor, unidades, idutente");
+                        System.out.println("Insira os dados da seguinte forma: id consulta, data ");
                         String info = scanner.nextLine();
                         String[] dados = info.split(", ");
-                        Medicao m = new Medicao(dados[0], dados[1], dados[2], dados[3], dados[4]);
-                        gm.addMedicao(m);
+                        System.out.println(ga.alterarDataConsulta_utente(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
                     } catch (IdAlreadyExists e) {
                         throw new RuntimeException(e);
                     }
-                } else if (op == 11) {
-                    try {
-                        System.out.println("\"Insira os dados da seguinte forme: id do medico, novo nome\"");
-                        String info = scanner.nextLine();
-                        String[] dados = info.split(",");
-                        System.out.println(gm.alterarNome_Profissional(dados[0], dados[1]));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
-
                 } else if (op == 10) {
                     try {
-                        System.out.println("Insira os dados da seguinte forma: idexame, data de realizacao, nome do exame, resultado, id_utente");
+                        System.out.println("Insira os dados da seguinte forma: id familiar, novo nome");
                         String info = scanner.nextLine();
                         String[] dados = info.split(", ");
-                        Exame e = new Exame(dados[0], dados[1], dados[2], dados[3], dados[4]);
-                        gm.addExame(e);
+                        System.out.println(ga.alterarNome_Familiar(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
                     } catch (IdAlreadyExists e) {
                         throw new RuntimeException(e);
                     }
-                } else if (op == 12) {
+                    }else if (op == 11) {
+                        try {
+                            System.out.println("\"Insira os dados da seguinte forme: id do familiar, novo contacto\"");
+                            String info = scanner.nextLine();
+                            String[] dados = info.split(",");
+                            System.out.println(ga.alterarContacto_Familiar(dados[0],dados[1]));
+                        } catch (ObjectNotFound e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    } else if (op == 12) {
                     try {
-                        System.out.println("Insira os dados da seguinte forme: id do medico, novo contacto");
+                        System.out.println("Insira os dados da seguinte forme: id do auxiliar, novo contacto");
                         String info = scanner.nextLine();
                         String[] dados = info.split(",");
-                        System.out.println(gm.alterarContacto_Profissional(dados[0], dados[1]));
+                        System.out.println(ga.alterarContacto_Profissional(dados[0], dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
                     }
-                } else {System.out.println("Opção inválida! Tente de novo!");}
+                    } else if (op == 13) {
+                            try {
+                                System.out.println("Insira os dados da seguinte forme: id do auxiliar, novo nome");
+                                String info = scanner.nextLine();
+                                String[] dados = info.split(",");
+                                System.out.println(ga.alterarNome_Profissional(dados[0], dados[1]));
+                            } catch (ObjectNotFound e) {
+                                throw new RuntimeException(e);
+                }} else {System.out.println("Opção inválida! Tente de novo!");}
 
             } while (op != 0);
         } catch (Exception e) {

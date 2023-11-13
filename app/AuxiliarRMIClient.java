@@ -5,7 +5,7 @@ package Trabalho_AD_JAVA.app;
 import Trabalho_AD_JAVA.Objetos.*;
 import Trabalho_AD_JAVA.Gestao.GestaoDados;
 import Trabalho_AD_JAVA.exception.ObjectNotFound;
-
+import Trabalho_AD_JAVA.exception.IdAlreadyExists;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -105,8 +105,6 @@ public class AuxiliarRMIClient {
                         System.out.println(ga.alterarContacto_utente(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
-                    } catch (IdAlreadyExists e) {
-                        throw new RuntimeException(e);
                     }
                 } else if (op == 8) {
                     try {
@@ -128,8 +126,6 @@ public class AuxiliarRMIClient {
                         System.out.println(ga.alterarDataConsulta_utente(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
-                    } catch (IdAlreadyExists e) {
-                        throw new RuntimeException(e);
                     }
                 } else if (op == 10) {
                     try {
@@ -139,10 +135,8 @@ public class AuxiliarRMIClient {
                         System.out.println(ga.alterarNome_Familiar(dados[0],dados[1]));
                     } catch (ObjectNotFound e) {
                         throw new RuntimeException(e);
-                    } catch (IdAlreadyExists e) {
-                        throw new RuntimeException(e);
                     }
-                    }else if (op == 11) {
+                }else if (op == 11) {
                         try {
                             System.out.println("\"Insira os dados da seguinte forme: id do familiar, novo contacto\"");
                             String info = scanner.nextLine();

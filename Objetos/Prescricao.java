@@ -11,6 +11,20 @@ public class Prescricao implements Serializable {
     private String id_medico;
     private String id_utente;
 
+    public Prescricao(String idp, String nome_medicamento, String inicio_toma, String duracao, String dose_diaria, String id_medico, String id_utente) {
+        this.idp = idp;
+        this.id_medico = id_medico;
+        this.id_utente = id_utente;
+        this.nome_medicamento = nome_medicamento;
+        this.inicio_toma = inicio_toma;
+        this.duracao = duracao;
+        this.dose_diaria = dose_diaria;
+    }
+
+    public Prescricao() {
+
+    }
+
     public String getIdp() {
         return idp;
     }

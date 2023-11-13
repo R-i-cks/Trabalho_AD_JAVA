@@ -9,6 +9,18 @@ public class Exame implements Serializable {
     private String resultado;
     private String id_utente;
 
+    public Exame(String id_exame, String data_realizacao, String nome_exame, String resultado, String id_utente) {
+        this.id_exame = id_exame;
+        this.data_realizacao = data_realizacao;
+        this.id_utente = id_utente;
+        this.nome_exame = nome_exame;
+        this.resultado = resultado;
+    }
+
+    public Exame() {
+
+    }
+
     public String getId_exame() {
         return id_exame;
     }

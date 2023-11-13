@@ -13,12 +13,12 @@ import java.util.List;
 public interface GestaoMedicosInterface extends Remote{
     public List<Consulta> encontraConsultas_medico(String id) throws ObjectNotFound;
     public List<Consulta> encontraConsultas_utente(String id) throws ObjectNotFound;
-    public void addConsulta(Consulta c) throws ObjectNotFound, IdAlreadyExists;
+    public void addConsulta(Consulta c) throws ObjectNotFound, IdAlreadyExists;                      // feito
     public List<Prescricao> encontraPrescricoes_utente(String id) throws ObjectNotFound;
-    public List<Prescricao> encontraPrescricao_medico(String id) throws ObjectNotFound;
+    public List<Prescricao> encontraPrescricao_medico(String id) throws ObjectNotFound;             // feito
     public void addPrescricao(Prescricao pre) throws ObjectNotFound, IdAlreadyExists;
     public List<Medicao> encontraMedicoes_utente(String id) throws ObjectNotFound;
-    public void addMedicao(Medicao medicao) throws ObjectNotFound, IdAlreadyExists;
+    public void addMedicao(Medicao medicao) throws ObjectNotFound, IdAlreadyExists;                  // feito
     public List<Exame> encontraExames_utente(String id) throws ObjectNotFound;
     public void addExame(Exame e) throws ObjectNotFound, IdAlreadyExists;
     public boolean alterarContacto_Profissional(String id, String contacto) throws ObjectNotFound;

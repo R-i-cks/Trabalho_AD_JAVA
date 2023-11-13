@@ -32,6 +32,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         this.examesPorId = new HashMap<>();
     }
 
+
     public void addUtente(Utente u) throws IdAlreadyExists {
         if (!utentesPorId.containsKey(u.getId())) {
             utentesPorId.put(u.getId(), u);
@@ -344,4 +345,33 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         return res;
     }
 
+    public Medico medicoComMaisConsultas() {
+        int minimo=Integer.MAX_VALUE;
+        Medico resultado = null;
+        for (Medico m :medicosPorId.values()) {
+            if (m.getConsultas().size()<minimo) {
+                resultado=m;
+                minimo=m.getConsultas().size();
+            }
+        }
+        return resultado;
+    }
+
+    public int consultasNumDadoPeriodo(String inicial, String dfinal) {
+        int Num = 0;
+        for (Consulta c: consultasPorId.values()) {
+            String[] data= c.getData().split("/");
+            String[] i = inicial.split("/");
+            String[] f = dfinal.split("/");
+            if (Integer.parseInt(i[2]) <= Integer.parseInt(data[2]) && Integer.parseInt(data[2]) <= Integer.parseInt(f[2])) {
+                if (Integer.parseInt(i[1]) <= Integer.parseInt(data[1]) && Integer.parseInt(data[1]) <= Integer.parseInt(f[1])) {
+                    if (Integer.parseInt(i[0]) <= Integer.parseInt(data[0]) && Integer.parseInt(data[0]) <= Integer.parseInt(f[0])) {
+                        ++Num;
+                    }
+                }
+            }
+        }
+        return Num;
+    }
 }
+

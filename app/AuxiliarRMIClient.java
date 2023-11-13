@@ -6,7 +6,7 @@ import Trabalho_AD_JAVA.Objetos.*;
 import Trabalho_AD_JAVA.Gestao.GestaoDados;
 import Trabalho_AD_JAVA.exception.IdAlreadyExists;
 import Trabalho_AD_JAVA.exception.ObjectNotFound;
-
+import Trabalho_AD_JAVA.exception.IdAlreadyExists;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;

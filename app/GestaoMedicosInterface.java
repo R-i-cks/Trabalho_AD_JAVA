@@ -11,6 +11,7 @@ import java.rmi.Remote;
 import java.util.List;
 
 public interface GestaoMedicosInterface extends Remote{
+    public void load();
     public List<Consulta> encontraConsultas_medico(String id) throws ObjectNotFound;
     public List<Consulta> encontraConsultas_utente(String id) throws ObjectNotFound;
     public void addConsulta(Consulta c) throws ObjectNotFound, IdAlreadyExists;                      // feito

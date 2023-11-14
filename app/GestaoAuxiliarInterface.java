@@ -8,6 +8,7 @@ import java.rmi.Remote;
 import java.util.List;
 
 public interface GestaoAuxiliarInterface extends Remote {
+    public void load();
     public List<Consulta> encontraConsultas_utente(String id) throws ObjectNotFound;
     public List<Prescricao> encontraPrescricoes_utente(String id) throws ObjectNotFound;
     public List<Medicao> encontraMedicoes_utente(String id) throws ObjectNotFound;

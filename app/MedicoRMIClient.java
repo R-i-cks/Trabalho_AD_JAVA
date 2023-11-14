@@ -22,7 +22,7 @@ public class MedicoRMIClient {
     public static void main(String[] args) {
         GestaoMedicosInterface gm = null;
         try {
-            gm = (GestaoMedicosInterface) Naming.lookup("rmi://localhost:5001/GM");
+            gm = (GestaoMedicosInterface) Naming.lookup("rmi://localhost:5001/GA");
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         } catch (MalformedURLException e) {

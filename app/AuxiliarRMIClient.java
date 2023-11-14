@@ -40,9 +40,9 @@ public class AuxiliarRMIClient {
                         "6 - Alterar o género de um utente por id"+
                         "7 - Alterar o contacto de um utente por id"+
                         "8 - Adicionar uma consulta a um utente\n" +
-                        "9 - Alterar a data de uma consulta de um utente"+
-                        "10 - Alterar o nome de um familiar por id"+
-                        "11 - Alterar o contacto de um familiar por id"+
+                        "9 - Alterar a data de uma consulta de um utente\n"+
+                        "10 - Alterar o nome de um familiar por id\n"+
+                        "11 - Alterar o contacto de um familiar por id\n"+
                         "12 - Alterar o seu contacto\n" +
                         "13 - Alterar o seu nome\n" +
                         "14 - Numero de consultas num dado periodo\n" +

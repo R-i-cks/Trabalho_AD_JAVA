@@ -3,7 +3,7 @@ package Trabalho_AD_JAVA.Objetos;
 import java.io.Serializable;
 
 public class Medicao implements Serializable {
-
+    private static final long serialVersionUID = -5066701986496643818L;
     private String idmedicao;
     private String tipo;
     private String valor;

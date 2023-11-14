@@ -3,6 +3,7 @@ package Trabalho_AD_JAVA.Objetos;
 import java.io.Serializable;
 
 public class Person implements Serializable {
+    private static final long serialVersionUID = -8778211987477324203L;
     private String id;
     private String nome;
     private String contacto;

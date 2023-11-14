@@ -1,7 +1,6 @@
 package Trabalho_AD_JAVA.app;
 
 
-import Trabalho_AD_JAVA.Objetos.Consulta;
 import Trabalho_AD_JAVA.exception.ObjectNotFound;
 
 import java.net.MalformedURLException;
@@ -32,7 +31,7 @@ public class EnfermeiroRMIClient {
                         "1 - Consultar as consultas por id de utente\n" +
                         "2 - Consultar as prescricoes de um utente\n" +
                         "3 - Consultar as medicoes por id de utente\n" +
-                        "4 - Consultar as exames por id de utente\n" +
+                        "4 - Consultar os exames por id de utente\n" +
                         "5 - Alterar o seu contacto\n" +
                         "6 - Alterar o seu nome\n" +
                         "0 - exit\n");

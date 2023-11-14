@@ -3,6 +3,7 @@ package Trabalho_AD_JAVA.Objetos;
 import java.io.Serializable;
 
 public class Exame implements Serializable {
+    private static final long serialVersionUID = -5845602409231319927L;
     private String id_exame;
     private String data_realizacao;
     private String nome_exame;

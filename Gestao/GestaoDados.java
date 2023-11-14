@@ -44,6 +44,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
 
     }
 
+
     public void carregaUtentes() {
         BufferedReader br1 = null;
         try {

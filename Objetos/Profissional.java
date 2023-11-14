@@ -3,7 +3,7 @@ package Trabalho_AD_JAVA.Objetos;
 import java.io.Serializable;
 import java.util.List;
 public class Profissional extends Person implements Serializable {
-
+    private static final long serialVersionUID = -578227530275157667L;
     private String type;
     public String getType() {
         return type;

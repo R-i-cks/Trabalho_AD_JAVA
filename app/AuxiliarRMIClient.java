@@ -36,9 +36,9 @@ public class AuxiliarRMIClient {
                         "2 - Consultar as prescricoes de um utente\n" +
                         "3 - Consultar as medicoes por id de utente\n" +
                         "4 - Consultar as exames por id de utente\n" +
-                        "5 - Alterar o nome de um utente por id"+
-                        "6 - Alterar o género de um utente por id"+
-                        "7 - Alterar o contacto de um utente por id"+
+                        "5 - Alterar o nome de um utente por id\n"+
+                        "6 - Alterar o género de um utente por id\n"+
+                        "7 - Alterar o contacto de um utente por id\n"+
                         "8 - Adicionar uma consulta a um utente\n" +
                         "9 - Alterar a data de uma consulta de um utente\n"+
                         "10 - Alterar o nome de um familiar por id\n"+
@@ -177,7 +177,8 @@ public class AuxiliarRMIClient {
                     System.out.println("O medico com mais consultas dadas é: " + ga.medicoComMaisConsultas());
                 }
 
-                else {System.out.println("Opção inválida! Tente de novo!");}
+                else {System.out.println("Opção inválida! Tente de novo!");
+                }
 
             } while (op != 0);
         } catch (Exception e) {

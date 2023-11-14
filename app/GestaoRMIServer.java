@@ -1,7 +1,6 @@
 package Trabalho_AD_JAVA.app;
 
-import Trabalho_AD_JAVA.Gestao.GestaoDados;
-import java.io.BufferedReader;
+import  Trabalho_AD_JAVA.Gestao.GestaoDados;
 import java.rmi.Naming;
 //  C:\Users\monic\.jdks\openjdk-21\bin\rmiregistry.exe -J-D"sun.rmi.registry.registryFilter=*" 5001
 
@@ -14,19 +13,19 @@ public class GestaoRMIServer {
             gd.load();
 
             GestaoUtentesInterface serverU = gd;
-            Naming.rebind("rmi://localhost:5001/GA", serverU);
+            Naming.rebind("rmi://localhost:5001/GU", serverU);
 
             GestaoAuxiliarInterface serverA = gd;
             Naming.rebind("rmi://localhost:5001/GA", serverA);
 
             GestaoEnfermeirosInterface serverE = gd;
-            Naming.rebind("rmi://localhost:5001/GA", serverE);
+            Naming.rebind("rmi://localhost:5001/GE", serverE);
 
             GestaoFamiliarInterface serverF = gd;
-            Naming.rebind("rmi://localhost:5001/GA", serverF);
+            Naming.rebind("rmi://localhost:5001/GF", serverF);
 
             GestaoMedicosInterface serverM = gd;
-            Naming.rebind("rmi://localhost:5001/GA", serverM);
+            Naming.rebind("rmi://localhost:5001/GM", serverM);
 
             System.out.println("Running");
         } catch (Exception e) {

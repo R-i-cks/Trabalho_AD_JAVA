@@ -3,6 +3,8 @@ package Trabalho_AD_JAVA.Objetos;
 import java.io.Serializable;
 
 public class Prescricao implements Serializable {
+
+    private static final long serialVersionUID = 6613806181233316896L;
     private String idp;
     private String nome_medicamento;
     private String inicio_toma;

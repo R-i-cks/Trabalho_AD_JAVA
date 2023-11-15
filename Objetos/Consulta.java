@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Consulta implements Serializable {
+
+    private static final long serialVersionUID = 1036021606526432728L;
     private String id_consulta;
     private String data;
     private String hora;

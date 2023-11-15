@@ -156,7 +156,8 @@ public class AuxiliarRMIClient {
                     System.out.println("O medico com mais consultas dadas é: " + ga.medicoComMaisConsultas());
                 }
 
-                else {System.out.println("Opção inválida! Tente de novo!");}
+                else {System.out.println("Opção inválida! Tente de novo!");
+                }
 
             } while (op != 0);
         } catch (Exception e) {

@@ -1,8 +1,8 @@
 package Trabalho_AD_JAVA.app;
-
 import Trabalho_AD_JAVA.Gestao.GestaoDados;
 import java.io.BufferedReader;
 import java.net.MalformedURLException;
+
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
@@ -30,22 +30,25 @@ public class GestaoRMIServer {
         try {
 
 
-                GestaoUtentesInterface serverU = gd;
-                Naming.rebind("rmi://localhost:5001/GU", serverU);
+            GestaoUtentesInterface serverU = gd;
+            Naming.rebind("rmi://localhost:5001/GU", serverU);
 
-                GestaoAuxiliarInterface serverA = gd;
-                Naming.rebind("rmi://localhost:5001/GA", serverA);
 
-                GestaoEnfermeirosInterface serverE = gd;
-                Naming.rebind("rmi://localhost:5001/GE", serverE);
+            GestaoAuxiliarInterface serverA = gd;
+            Naming.rebind("rmi://localhost:5001/GA", serverA);
 
-                GestaoFamiliarInterface serverF = gd;
-                Naming.rebind("rmi://localhost:5001/GF", serverF);
 
-                GestaoMedicosInterface serverM = gd;
-                Naming.rebind("rmi://localhost:5001/GM", serverM);
+            GestaoEnfermeirosInterface serverE = gd;
+            Naming.rebind("rmi://localhost:5001/GE", serverE);
 
-                out.println("Running");
+            GestaoFamiliarInterface serverF = gd;
+            Naming.rebind("rmi://localhost:5001/GF", serverF);
+
+            GestaoMedicosInterface serverM = gd;
+            Naming.rebind("rmi://localhost:5001/GM", serverM);
+
+
+            out.println("Running");
 
 
         } catch (RemoteException e) {

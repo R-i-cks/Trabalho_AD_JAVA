@@ -42,7 +42,7 @@ public class MedicoRMIClient {
                         "3 - Consultar as consultas por id de utente\n" +
                         "4 - Consultar as prescricoes de um utente\n" +
                         "5 - Consultar as medicoes por id de utente\n" +
-                        "6 - Consultar as exames por id de utente\n" +
+                        "6 - Consultar os exames por id de utente\n" +
                         "7 - Adicionar uma consulta a um utente\n" +
                         "8 - Adicionar uma prescricao para um utente\n" +
                         "9 - Adicionar uma medicao para um utente\n" +
@@ -82,7 +82,6 @@ public class MedicoRMIClient {
                     System.out.println(gm.encontraExames_utente(idm));
                 } else if (op == 7) {
                     try {
-                        System.out.println("Insira os dados da seguinte forma: idconsulta, dataconsulta, horaconsulta, upcs, idmedico, idutente");
                         String info = scanner.nextLine();
                         String[] dados = info.split(", ");
                         Consulta c = new Consulta(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);

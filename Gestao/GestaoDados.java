@@ -56,6 +56,7 @@ public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInt
             carregaPrescricao();
     }
 
+
     public void carregaUtentes() {
         BufferedReader br1 = null;
         try {

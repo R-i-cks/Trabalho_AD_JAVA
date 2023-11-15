@@ -16,6 +16,7 @@ public class EnfermeiroRMIClient {
         GestaoEnfermeirosInterface ge = null;
         try {
             ge = (GestaoEnfermeirosInterface) Naming.lookup("rmi://localhost:5001/GE");
+            ge.load();
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         } catch (MalformedURLException e) {

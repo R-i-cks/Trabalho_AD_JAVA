@@ -22,7 +22,8 @@ public class MedicoRMIClient {
     public static void main(String[] args) {
         GestaoMedicosInterface gm = null;
         try {
-            gm = (GestaoMedicosInterface) Naming.lookup("rmi://localhost:5001/GA");
+            gm = (GestaoMedicosInterface) Naming.lookup("rmi://localhost:5001/GM");
+            gm.load();
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         } catch (MalformedURLException e) {
@@ -60,45 +61,25 @@ public class MedicoRMIClient {
                         throw new RuntimeException(e);
                     }
                 } else if (op == 2) {
-                    try {
-                        System.out.println("Insira o id do medico:");
-                        String idm = scanner.nextLine();
-                        System.out.println(gm.encontraPrescricao_medico(idm));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira o id do medico:");
+                    String idm = scanner.nextLine();
+                    System.out.println(gm.encontraPrescricao_medico(idm));
                 } else if (op == 3) {
-                    try {
-                        System.out.println("Insira o id do utente:");
-                        String idm = scanner.nextLine();
-                        System.out.println(gm.encontraConsultas_utente(idm));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira o id do utente:");
+                    String idm = scanner.nextLine();
+                    System.out.println(gm.encontraConsultas_utente(idm));
                 } else if (op == 4) {
-                    try {
-                        System.out.println("Insira o id do utente:");
-                        String idu = scanner.nextLine();
-                        System.out.println(gm.encontraPrescricoes_utente(idu));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira o id do utente:");
+                    String idu = scanner.nextLine();
+                    System.out.println(gm.encontraPrescricoes_utente(idu));
                 } else if (op == 5) {
-                    try {
-                        System.out.println("Insira o id do utente:");
-                        String idm = scanner.nextLine();
-                        System.out.println(gm.encontraMedicoes_utente(idm));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira o id do utente:");
+                    String idm = scanner.nextLine();
+                    System.out.println(gm.encontraMedicoes_utente(idm));
                 } else if (op == 6) {
-                    try {
-                        System.out.println("Insira o id do utente:");
-                        String idm = scanner.nextLine();
-                        System.out.println(gm.encontraExames_utente(idm));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira o id do utente:");
+                    String idm = scanner.nextLine();
+                    System.out.println(gm.encontraExames_utente(idm));
                 } else if (op == 7) {
                     try {
                         System.out.println("Insira os dados da seguinte forma: idconsulta, dataconsulta, horaconsulta, upcs, idmedico, idutente");
@@ -106,8 +87,6 @@ public class MedicoRMIClient {
                         String[] dados = info.split(", ");
                         Consulta c = new Consulta(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
                         gm.addConsulta(c);
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
                     } catch (IdAlreadyExists e) {
                         throw new RuntimeException(e);
                     }
@@ -118,8 +97,6 @@ public class MedicoRMIClient {
                         String[] dados = info.split(", ");
                         Prescricao p = new Prescricao(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6]);
                         gm.addPrescricao(p);
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
                     } catch (IdAlreadyExists e) {
                         throw new RuntimeException(e);
                     }
@@ -130,20 +107,14 @@ public class MedicoRMIClient {
                         String[] dados = info.split(", ");
                         Medicao m = new Medicao(dados[0], dados[1], dados[2], dados[3], dados[4]);
                         gm.addMedicao(m);
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
                     } catch (IdAlreadyExists e) {
                         throw new RuntimeException(e);
                     }
                 } else if (op == 11) {
-                    try {
-                        System.out.println("\"Insira os dados da seguinte forme: id do medico, novo nome\"");
-                        String info = scanner.nextLine();
-                        String[] dados = info.split(",");
-                        System.out.println(gm.alterarNome_Profissional(dados[0], dados[1]));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("\"Insira os dados da seguinte forme: id do medico, novo nome\"");
+                    String info = scanner.nextLine();
+                    String[] dados = info.split(",");
+                    System.out.println(gm.alterarNome_Profissional(dados[0], dados[1]));
 
                 } else if (op == 10) {
                     try {
@@ -152,26 +123,21 @@ public class MedicoRMIClient {
                         String[] dados = info.split(", ");
                         Exame e = new Exame(dados[0], dados[1], dados[2], dados[3], dados[4]);
                         gm.addExame(e);
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
                     } catch (IdAlreadyExists e) {
                         throw new RuntimeException(e);
                     }
                 } else if (op == 12) {
-                    try {
-                        System.out.println("Insira os dados da seguinte forme: id do medico, novo contacto");
-                        String info = scanner.nextLine();
-                        String[] dados = info.split(",");
-                        System.out.println(gm.alterarContacto_Profissional(dados[0], dados[1]));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira os dados da seguinte forme: id do medico, novo contacto");
+                    String info = scanner.nextLine();
+                    String[] dados = info.split(",");
+                    System.out.println(gm.alterarContacto_Profissional(dados[0], dados[1]));
                 } else {System.out.println("Opção inválida! Tente de novo!");}
 
             } while (op != 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
     }
 
 

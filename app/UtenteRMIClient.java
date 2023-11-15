@@ -23,7 +23,8 @@ public class UtenteRMIClient {
 
         GestaoUtentesInterface gu = null;
         try {
-            gu = (GestaoUtentesInterface) Naming.lookup("rmi://localhost:5001/GA");
+            gu = (GestaoUtentesInterface) Naming.lookup("rmi://localhost:5001/GU");
+            gu.load();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -3,15 +3,20 @@ package Trabalho_AD_JAVA.Gestao;
 import Trabalho_AD_JAVA.Objetos.*;
 import Trabalho_AD_JAVA.app.*;
 import Trabalho_AD_JAVA.exception.IdAlreadyExists;
-import Trabalho_AD_JAVA.exception.ObjectNotFound;
+import com.opencsv.CSVWriter;
 
+import java.rmi.RemoteException;
+import java.io.FileWriter;
 import java.io.*;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class GestaoDados implements Serializable, GestaoUtentesInterface, GestaoMedicosInterface, GestaoEnfermeirosInterface, GestaoAuxiliarInterface, GestaoFamiliarInterface {
-    private static final long serialVersionUID = 2271773781997413728L;
+
+public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInterface, GestaoMedicosInterface, GestaoEnfermeirosInterface, GestaoAuxiliarInterface, GestaoFamiliarInterface {
+    //private static final long serialVersionUID = 2271773781997413728L;
     private Map<String, Utente> utentesPorId;
     private Map<String, Medico> medicosPorId;
     private Map<String, Profissional> profissionaisPorId;
@@ -21,7 +26,8 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
     private Map<String, Medicao> medicoesPorId;
     private Map<String, Exame> examesPorId;
 
-    public GestaoDados() {
+    public GestaoDados() throws RemoteException {
+        super();
         this.utentesPorId = new HashMap<>();
         this.medicosPorId = new HashMap<>();
         this.familiaresPorId = new HashMap<>();
@@ -33,15 +39,21 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         this.examesPorId = new HashMap<>();
     }
 
-    public void load() {
-        carregaUtentes();
-        carregaProfissionais();
-        carregaConsultas();
-        carregaExames();
-        carregaFamiliares();
-        carregaMedicoes();
-        carregaPrescricao();
-
+    public void load() throws RemoteException {
+        if (utentesPorId.isEmpty())
+            carregaUtentes();
+        if (profissionaisPorId.isEmpty() || medicosPorId.isEmpty())
+            carregaProfissionais();
+        if (consultasPorId.isEmpty())
+            carregaConsultas();
+        if (examesPorId.isEmpty())
+            carregaExames();
+        if (familiaresPorId.isEmpty())
+            carregaFamiliares();
+        if (medicoesPorId.isEmpty())
+            carregaMedicoes();
+        if (prescricoesPorId.isEmpty())
+            carregaPrescricao();
     }
 
     public void carregaUtentes() {
@@ -60,13 +72,12 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                 if (line != null) {
                     String[] columns2 = line.split(";");
                     if (columns2.length != 0) {
-                        Utente u = new Utente();
+                        final Utente u = new Utente();
                         u.setId(columns2[0]);
                         u.setNome(columns2[1]);
                         u.setContacto(columns2[2]);
                         u.setGenero(columns2[3]);
                         u.setData_nascimento(columns2[4]);
-
                         addUtente(u);
                         ++cnt;
                         System.out.println(u);
@@ -78,6 +89,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             e.printStackTrace();
         }
     }
+
     public void carregaProfissionais() {
 
         BufferedReader br7 = null;
@@ -109,7 +121,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                     String[] columns8 = line7.split(";");
                     if (columns8.length != 0) {
                         if (Objects.equals(columns8[1], "medico")) {
-                            Medico m = new Medico();
+                            final Medico m = new Medico();
                             m.setId(columns8[0]);
                             m.setType(columns8[1]);
                             m.setNome(columns8[2]);
@@ -118,7 +130,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                             addMedico(m);
                             System.out.println(m);
                         } else {
-                            Profissional p = new Profissional();
+                            final Profissional p = new Profissional();
                             p.setId(columns8[0]);
                             p.setType(columns8[1]);
                             p.setNome(columns8[2]);
@@ -152,7 +164,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                 if (line3 != null) {
                     String[] columns4 = line3.split(";");
                     if (columns4.length != 0) {
-                        Exame e5 = new Exame();
+                        final Exame e5 = new Exame();
                         e5.setId_exame(columns4[0]);
                         e5.setId_utente(columns4[1]);
                         e5.setData_realizacao(columns4[2]);
@@ -185,7 +197,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                 if (line5 != null) {
                     String[] columns6 = line5.split(";");
                     if (columns6.length != 0) {
-                        Medicao medicao = new Medicao();
+                        final Medicao medicao = new Medicao();
                         medicao.setIdmedicao(columns6[0]);
                         medicao.setId_utente(columns6[1]);
                         medicao.setTipo(columns6[2]);
@@ -220,7 +232,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                 if (line2 != null) {
                     String[] columns3 = line2.split(";");
                     if (columns3.length != 0) {
-                        Consulta c = new Consulta();
+                        final Consulta c = new Consulta();
                         c.setId_consulta(columns3[0]);
                         c.setId_medico(columns3[1]);
                         c.setId_utente(columns3[2]);
@@ -229,7 +241,6 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                         c.setUpcs(columns3[5]);
                         addConsulta(c);
                         ++cnt2;
-                        System.out.println(c);
                     }
                 }
             } while (line2 != null && cnt2 < 100000);
@@ -256,7 +267,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                 if (line4 != null) {
                     String[] columns5 = line4.split(";");
                     if (columns5.length != 0) {
-                        Prescricao pres = new Prescricao();
+                        final Prescricao pres = new Prescricao();
                         pres.setIdp(columns5[0]);
                         pres.setId_medico(columns5[1]);
                         pres.setId_utente(columns5[2]);
@@ -306,11 +317,11 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
                 if (line6 != null) {
                     String[] columns7 = line6.split(";");
                     if (columns7.length != 0) {
-                        Familiar f = new Familiar();
+                        final Familiar f = new Familiar();
                         f.setId(columns7[0]);
                         f.setNome(columns7[1]);
                         f.setContacto(columns7[2]);
-                        List<String> uf = List.of(columns7[3].split(";"));
+                        List<String> uf = Arrays.asList(columns7[3].split(","));
                         f.setUtentes(uf);
                         addFamiliar(f);
                         ++cnt6;
@@ -321,14 +332,10 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
 
-
-
-    public void addUtente(Utente u) throws IdAlreadyExists {
+    public synchronized void addUtente(Utente u) throws IdAlreadyExists {
         if (!utentesPorId.containsKey(u.getId())) {
             utentesPorId.put(u.getId(), u);
         } else {
@@ -336,7 +343,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         }
     }
 
-    public void addFamiliar(Familiar f) throws IdAlreadyExists {
+    public synchronized void addFamiliar(Familiar f) throws IdAlreadyExists {
         if (!familiaresPorId.containsKey(f.getId())) {
             familiaresPorId.put(f.getId(), f);
         } else {
@@ -344,7 +351,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         }
     }
 
-    public void addMedico(Profissional p) throws IdAlreadyExists {
+    public synchronized void addMedico(Profissional p) throws IdAlreadyExists {
         if (!medicosPorId.containsKey(p.getId())) {
             medicosPorId.put(p.getId(), (Medico) p);
         } else {
@@ -352,7 +359,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         }
     }
 
-    public void addProfissional(Profissional p) throws IdAlreadyExists {
+    public synchronized void addProfissional(Profissional p) throws IdAlreadyExists {
         if (!profissionaisPorId.containsKey(p.getId())) {
             profissionaisPorId.put(p.getId(), p);
         } else {
@@ -360,7 +367,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         }
     }
 
-    public void addConsulta(Consulta c) throws IdAlreadyExists {
+    public synchronized void addConsulta(Consulta c) throws RemoteException {
         if (!consultasPorId.containsKey(c.getId_consulta())) {
             consultasPorId.put(c.getId_consulta(), c);
             String idUtente = c.getId_utente();
@@ -371,12 +378,14 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             Medico m = medicosPorId.get(idMedico);
             m.addConsulta(c.getId_consulta());
         } else {
-            throw new IdAlreadyExists();
+            throw new RuntimeException();
         }
+
         System.out.println(c);
     }
 
-    public void addExame(Exame e) throws IdAlreadyExists {
+    public synchronized void addExame(Exame e) throws IdAlreadyExists {
+
         if (!examesPorId.containsKey(e.getId_exame())) {
             examesPorId.put(e.getId_exame(), e);
 
@@ -389,7 +398,8 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         }
     }
 
-    public void addPrescricao(Prescricao pre) throws ObjectNotFound, IdAlreadyExists {
+    public synchronized void addPrescricao(Prescricao pre) throws RemoteException, IdAlreadyExists {
+
         if (!prescricoesPorId.containsKey(pre.getIdp())) {
             prescricoesPorId.put(pre.getIdp(), pre);
 
@@ -405,7 +415,8 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         }
     }
 
-    public void addMedicao(Medicao medicao) throws ObjectNotFound, IdAlreadyExists {
+
+    public synchronized void addMedicao(Medicao medicao) throws IdAlreadyExists {
         if (!medicoesPorId.containsKey(medicao.getIdmedicao())) {
             medicoesPorId.put(medicao.getIdmedicao(), medicao);
 
@@ -417,99 +428,93 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         }
     }
 
-    public List<Consulta> encontraConsultas_utente(String id) throws ObjectNotFound {
+    public synchronized List<Consulta> encontraConsultas_utente(String id) throws RemoteException {
         List<Consulta> lc = new ArrayList<>();
-        Utente resultado = utentesPorId.get(id);                 // a variavel resultado fica com o valor do hashmap com a key id
+        Utente resultado = utentesPorId.get(id);
         if (resultado != null) {
             List<String> idsConsultas = resultado.getConsultas();
-
             for (String idConsulta : idsConsultas) {
                 lc.add(consultasPorId.get(idConsulta));
             }
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return lc;
     }
 
-    public List<Prescricao> encontraPrescricoes_utente(String id) throws ObjectNotFound {
+    public synchronized List<Prescricao> encontraPrescricoes_utente(String id) throws RemoteException {
         List<Prescricao> lp = new ArrayList<>();
-        Utente resultado = utentesPorId.get(id);                 // a variavel resultado fica com o valor do hashmap com a key id
+        Utente resultado = utentesPorId.get(id);
         if (resultado != null) {
             List<String> idsPrescricoes = resultado.getPrescricoes();
-
             for (String idPrescricao : idsPrescricoes) {
                 lp.add(prescricoesPorId.get(idPrescricao));
             }
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return lp;
     }
 
-    public List<Medicao> encontraMedicoes_utente(String id) throws ObjectNotFound {
+    public synchronized List<Medicao> encontraMedicoes_utente(String id) throws RemoteException {
         List<Medicao> lm = new ArrayList<>();
         Utente resultado = utentesPorId.get(id);// a variavel resultado fica com o valor do hashmap com a key id
         if (resultado != null) {
             List<String> idsMedicoes = resultado.getMedicoes();
-
             for (String idMedicao : idsMedicoes) {
                 lm.add(medicoesPorId.get(idMedicao));
             }
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return lm;
     }
 
-    public List<Exame> encontraExames_utente(String id) throws ObjectNotFound {
+
+    public synchronized List<Exame> encontraExames_utente(String id) throws RemoteException {
         List<Exame> le = new ArrayList<>();
         Utente resultado = utentesPorId.get(id);                 // a variavel resultado fica com o valor do hashmap com a key id
         if (resultado != null) {
             List<String> idsExames = resultado.getExames();
-
             for (String idMedicao : idsExames) {
                 le.add(examesPorId.get(idMedicao));
             }
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return le;
     }
 
-    public List<Consulta> encontraConsultas_medico(String id) throws ObjectNotFound {
+    public synchronized List<Consulta> encontraConsultas_medico(String id) throws RemoteException {
         List<Consulta> lc = new ArrayList<>();
         Medico resultado = medicosPorId.get(id);
         if (resultado != null) {
-
             List<String> idsConsultas = resultado.getConsultas();
-
             for (String idConsulta : idsConsultas) {
                 lc.add(consultasPorId.get(idConsulta));
             }
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return lc;
     }
 
 
-    public List<Prescricao> encontraPrescricao_medico(String id) throws ObjectNotFound {
+    public synchronized List<Prescricao> encontraPrescricao_medico(String id) throws RemoteException {
         List<Prescricao> lc = new ArrayList<>();
         Medico resultado = medicosPorId.get(id);
         if (resultado != null) {
             List<String> idsPrescricoes = resultado.getPrescricoes();
-
             for (String idPrescricao : idsPrescricoes) {
                 lc.add(prescricoesPorId.get(idPrescricao));
             }
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return lc;
     }
 
-    public boolean alterarNome_utente(String id, String nome) throws ObjectNotFound {
+    public synchronized boolean alterarNome_utente(String id, String nome) throws RemoteException {
         boolean res;
         Utente resultado = utentesPorId.get(id);
 
@@ -517,14 +522,13 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             resultado.setNome(nome);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
-
         return res;
     }
 
 
-    public boolean alterarGenero_utente(String id, String genero) throws ObjectNotFound {
+    public synchronized boolean alterarGenero_utente(String id, String genero) throws RemoteException {
         boolean res;
         Utente resultado = utentesPorId.get(id);  // a variavel resultado fica com o valor do hashmap com a key id
 
@@ -532,13 +536,13 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             resultado.setGenero(genero);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
 
         return res;
     }
 
-    public boolean alterarContacto_utente(String id, String contacto) throws ObjectNotFound {
+    public synchronized boolean alterarContacto_utente(String id, String contacto) throws RemoteException {
         boolean res;
         Utente resultado = utentesPorId.get(id);
 
@@ -546,13 +550,13 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             resultado.setContacto(contacto);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
 
         return res;
     }
 
-    public boolean alterarContacto_Profissional(String id, String contacto) throws ObjectNotFound {
+    public synchronized boolean alterarContacto_Profissional(String id, String contacto) throws RemoteException {
         boolean res;
         System.out.println(profissionaisPorId.values());
         Profissional resultado = profissionaisPorId.get(id);
@@ -564,7 +568,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             resultado.setContacto(contacto);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
 
         System.out.println(profissionaisPorId.values());
@@ -572,7 +576,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         return res;
     }
 
-    public boolean alterarNome_Profissional(String id, String nome) throws ObjectNotFound {
+    public synchronized boolean alterarNome_Profissional(String id, String nome) throws RemoteException {
         boolean res;
         Profissional resultado = profissionaisPorId.get(id);
 
@@ -584,49 +588,49 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             resultado.setNome(nome);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return res;
     }
 
-    public boolean alterarEspecialidade_Medico(String id, String especialidade) throws ObjectNotFound {
+    public synchronized boolean alterarEspecialidade_Medico(String id, String especialidade) throws RemoteException {
         boolean res;
         Medico resultado = (Medico) medicosPorId.get(id);
         if (resultado != null) {
             resultado.setEspecialidade(especialidade);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return res;
     }
 
-    public boolean alterarContacto_Familiar(String id, String contacto) throws ObjectNotFound {
+    public synchronized boolean alterarContacto_Familiar(String id, String contacto) throws RemoteException {
         boolean res;
         Familiar resultado = familiaresPorId.get(id);
         if (resultado != null) {
             resultado.setContacto(contacto);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
         return res;
     }
 
-    public boolean alterarNome_Familiar(String id, String nome) throws ObjectNotFound {
+    public synchronized boolean alterarNome_Familiar(String id, String nome) throws RemoteException {
         boolean res;
         Familiar resultado = familiaresPorId.get(id);
         if (resultado != null) {
             resultado.setNome(nome);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
 
         return res;
     }
 
-    public boolean alterarDataConsulta_utente(String idc, String data) throws ObjectNotFound {
+    public synchronized boolean alterarDataConsulta_utente(String idc, String data) throws RemoteException {
         boolean res = false;
 
         Consulta c = consultasPorId.get(idc);
@@ -635,13 +639,13 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             c.setData(data);
             res = true;
         } else {
-            throw new ObjectNotFound();
+            throw new RemoteException();
         }
 
         return res;
     }
 
-    public Medico medicoComMaisConsultas() {
+    public synchronized Medico medicoComMaisConsultas() throws RemoteException {
         int max = -1;
         Medico resultado = null;
         for (Medico m : medicosPorId.values()) {
@@ -653,7 +657,7 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
         return resultado;
     }
 
-    public int consultasNumDadoPeriodo(String inicial, String dfinal) {
+    public synchronized int consultasNumDadoPeriodo(String inicial, String dfinal) throws RemoteException {
         int Num = 0;
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         try {
@@ -662,14 +666,156 @@ public class GestaoDados implements Serializable, GestaoUtentesInterface, Gestao
             for (Consulta c : consultasPorId.values()) {
                 String data = c.getData();
                 Date dataa = formato.parse(data);
-                if (datai.compareTo(dataa) <= 0 && dataa.compareTo(dataf)<=0) {
+                if (datai.compareTo(dataa) <= 0 && dataa.compareTo(dataf) <= 0) {
                     ++Num;
-                } }
+                }
+            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
         return Num;
     }
+
+    public synchronized void saveConsultas() {
+        File file = new File("Dados/consultas.csv");
+        try {
+            FileWriter outputfile = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+            List<String[]> data = new ArrayList<>();
+            data.add(new String[]{"idcomsulta", "idm", "idu", "data", "hora", "UPCS"});
+            for (Consulta c : consultasPorId.values()) {
+                data.add(new String[]{c.getId_consulta(), c.getIdMedico(), c.getId_utente(), c.getData(), c.getHora(), c.getUpcs()});
+            }
+            writer.writeAll(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public synchronized void saveExames() {
+
+        File file2 = new File("Dados/exames.csv");
+        try {
+            FileWriter outputfile = new FileWriter(file2);
+            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+            List<String[]> data = new ArrayList<>();
+            data.add(new String[]{"idexame", "idutente", "data_realizacao", "nome_exame", "resultado"});
+            for (Exame e : examesPorId.values()) {
+                data.add(new String[]{e.getId_exame(), e.getId_utente(), e.getData_realizacao(), e.getNome_exame(), e.getResultado()});
+            }
+            writer.writeAll(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void saveFamiliar() {
+
+        File file3 = new File("Dados/familiar.csv");
+        try {
+            FileWriter outputfile = new FileWriter(file3);
+            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+            List<String[]> data = new ArrayList<>();
+            data.add(new String[]{"id", "nome", "contacto", "idutentes"});
+            for (Familiar f : familiaresPorId.values()) {
+                System.out.println(f.getUtentes());
+                data.add(new String[]{f.getId(), f.getNome(), f.getContacto(),  String.join(",", f.getUtentes())});
+            }
+            writer.writeAll(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public synchronized void saveMedicoes() {
+        File file4 = new File("Dados/medicoes.csv");
+        try {
+            FileWriter outputfile = new FileWriter(file4);
+            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+            List<String[]> data = new ArrayList<>();
+            data.add(new String[]{"idmedicao", "idutente", "tipo", "valor", "unidades"});
+            for (Medicao m : medicoesPorId.values()) {
+                data.add(new String[]{m.getIdmedicao(), m.getId_utente(), m.getTipo(), m.getValor(), m.getUnidades()});
+            }
+            writer.writeAll(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void savePrescricoes() {
+
+        File file5 = new File("Dados/prescricao.csv");
+        try {
+            FileWriter outputfile = new FileWriter(file5);
+            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+            List<String[]> data = new ArrayList<>();
+            data.add(new String[]{"idprescricao", "idmedico", "idutente", "nome_medicamento", "inicio_toma", "duracao_prescricao", "dose_diaria"});
+            for (Prescricao p : prescricoesPorId.values())
+                data.add(new String[]{p.getIdp(), p.getId_medico(), p.getId_utente(), p.getNome_medicamento(), p.getInicio_toma(), p.getDuracao(), p.getDose_diaria()});
+            writer.writeAll(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public synchronized void saveProfissionais() {
+        File file6 = new File("Dados/profissionais.csv");
+        try {
+            FileWriter outputfile = new FileWriter(file6);
+            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+            List<String[]> data = new ArrayList<>();
+            data.add(new String[]{"id", "type", "nome", "contacto", "especialidade"});
+            for (Profissional p : profissionaisPorId.values())
+                data.add(new String[]{p.getId(), p.getType(), p.getNome(), p.getContacto(), String.valueOf(0)});
+            for (Medico m : medicosPorId.values())
+                data.add(new String[]{m.getId(), m.getType(), m.getNome(), m.getContacto(), m.getEspecialidade()});
+            writer.writeAll(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public synchronized void saveUtentes() {
+        File file7 = new File("Dados/utentes.csv");
+        try {
+            FileWriter outputfile = new FileWriter(file7);
+            CSVWriter writer = new CSVWriter(outputfile, ';',CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+            List<String[]> data = new ArrayList<>();
+            data.add(new String[]{"id","nome", "contacto","genero","data_nascimento"});
+            for (Utente u : utentesPorId.values())
+                data.add(new String[]{u.getId(), u.getNome(), u.getContacto(), u.getGenero(), u.getData_nascimento()});
+            writer.writeAll(data);
+            writer.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
+
 
 

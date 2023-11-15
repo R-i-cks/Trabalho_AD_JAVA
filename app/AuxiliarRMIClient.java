@@ -19,6 +19,7 @@ public class AuxiliarRMIClient {
         GestaoAuxiliarInterface ga = null;
         try {
             ga = (GestaoAuxiliarInterface) Naming.lookup("rmi://localhost:5001/GA");
+            ga.load();
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         } catch (MalformedURLException e) {
@@ -36,9 +37,9 @@ public class AuxiliarRMIClient {
                         "2 - Consultar as prescricoes de um utente\n" +
                         "3 - Consultar as medicoes por id de utente\n" +
                         "4 - Consultar as exames por id de utente\n" +
-                        "5 - Alterar o nome de um utente por id"+
-                        "6 - Alterar o género de um utente por id"+
-                        "7 - Alterar o contacto de um utente por id"+
+                        "5 - Alterar o nome de um utente por id\n"+
+                        "6 - Alterar o género de um utente por id\n"+
+                        "7 - Alterar o contacto de um utente por id\n"+
                         "8 - Adicionar uma consulta a um utente\n" +
                         "9 - Alterar a data de uma consulta de um utente\n"+
                         "10 - Alterar o nome de um familiar por id\n"+
@@ -59,29 +60,17 @@ public class AuxiliarRMIClient {
                         throw new RuntimeException(e);
                     }
                 } else if (op == 2) {
-                    try {
-                        System.out.println("Insira o id do utente:");
-                        String idu = scanner.nextLine();
-                        System.out.println(ga.encontraPrescricoes_utente(idu));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira o id do utente:");
+                    String idu = scanner.nextLine();
+                    System.out.println(ga.encontraPrescricoes_utente(idu));
                 } else if (op == 3) {
-                    try {
-                        System.out.println("Insira o id do utente:");
-                        String idu = scanner.nextLine();
-                        System.out.println(ga.encontraMedicoes_utente(idu));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira o id do utente:");
+                    String idu = scanner.nextLine();
+                    System.out.println(ga.encontraMedicoes_utente(idu));
                 } else if (op == 4) {
-                    try {
-                        System.out.println("Insira o id do utente:");
-                        String idu = scanner.nextLine();
-                        System.out.println(ga.encontraExames_utente(idu));
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira o id do utente:");
+                    String idu = scanner.nextLine();
+                    System.out.println(ga.encontraExames_utente(idu));
                 } else if (op == 5) {
                     try {
                         System.out.println("Insira a informação sobre a forma id_utente, nome");
@@ -110,17 +99,11 @@ public class AuxiliarRMIClient {
                         throw new RuntimeException(e);
                     }
                 } else if (op == 8) {
-                    try {
-                        System.out.println("Insira os dados da seguinte forma: idconsulta, dataconsulta, horaconsulta, upcs, idmedico, idutente");
-                        String info = scanner.nextLine();
-                        String[] dados = info.split(", ");
-                        Consulta c = new Consulta(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
-                        ga.addConsulta(c);
-                    } catch (ObjectNotFound e) {
-                        throw new RuntimeException(e);
-                    } catch (IdAlreadyExists e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Insira os dados da seguinte forma: idconsulta, dataconsulta, horaconsulta, upcs, idmedico, idutente");
+                    String info = scanner.nextLine();
+                    String[] dados = info.split(", ");
+                    Consulta c = new Consulta(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);
+                    ga.addConsulta(c);
                 } else if (op == 9) {
                     try {
                         System.out.println("Insira os dados da seguinte forma: id consulta, data ");
@@ -159,14 +142,10 @@ public class AuxiliarRMIClient {
                         throw new RuntimeException(e);
                     }
                     } else if (op == 13) {
-                            try {
-                                System.out.println("Insira os dados da seguinte forme: id do auxiliar, novo nome");
-                                String info = scanner.nextLine();
-                                String[] dados = info.split(",");
-                                System.out.println(ga.alterarNome_Profissional(dados[0], dados[1]));
-                            } catch (ObjectNotFound e) {
-                                throw new RuntimeException(e);
-                }
+                    System.out.println("Insira os dados da seguinte forme: id do auxiliar, novo nome");
+                    String info = scanner.nextLine();
+                    String[] dados = info.split(",");
+                    System.out.println(ga.alterarNome_Profissional(dados[0], dados[1]));
                 } else if (op ==14) {
                     System.out.println("Insira o inicio do período:");
                     String i = scanner.nextLine();

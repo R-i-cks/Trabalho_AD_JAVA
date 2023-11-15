@@ -1,8 +1,10 @@
-idconsulta;idm;idu;data;hora;UPCS
-c1;1;u1;20/05/2023;14:30;Hospital Sao Joao
-c2;2;u2;28/04/2021;11:45;Unidade de Saude da Lapa
+idcomsulta;idm;idu;data;hora;UPCS
 c3;3;u4;14/02/2017;09:00;Hospital de Santa Maria
 c4;2;u3;30/06/2019;16:30;Unidade de Saude da Lapa
 c5;1;u1;01/07/2021;15:15;Hospital Sao Joao
+c99;1;u1;29/04/2025;14:00;braga
 c6;1;u1;02/05/2022;17:40;Hospital Sao Joao
+c100;1;u1;20/10/2002;14:00;braga
 c7;2;u4;03/05/2020;12:00;Unidade de Saude da Lapa
+c1;1;u1;20/05/2023;14:30;Hospital Sao Joao
+c2;2;u2;28/04/2021;11:45;Unidade de Saude da Lapa

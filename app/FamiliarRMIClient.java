@@ -17,6 +17,7 @@ public class FamiliarRMIClient {
         GestaoFamiliarInterface gf = null;
         try {
             gf = (GestaoFamiliarInterface) Naming.lookup("rmi://localhost:5001/GF");
+            gf.load();
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         } catch (MalformedURLException e) {

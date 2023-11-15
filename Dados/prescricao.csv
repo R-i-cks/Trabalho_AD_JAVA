@@ -1,4 +1,4 @@
-idprescricao;idmedico;idutente;nomemed;inicio_toma;duracao_presc;dose_diaria
+idprescricao;idmedico;idutente;nome_medicamento;inicio_toma;duracao_prescricao;dose_diaria
 p1;1;u1;Cardipril 10mg;21/05/2023;6 meses;1cp/dia
 p2;1;u1;Edarclor 40mg+25mg;21/05/2023;6 meses;1cp/dia
 p3;1;u1;Edarbi 20mg;21/05/2023;6 meses;1cp/dia

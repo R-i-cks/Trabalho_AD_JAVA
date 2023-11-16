@@ -24,6 +24,7 @@ public class MedicoRMIClient {
         try {
             gm = (GestaoMedicosInterface) Naming.lookup("rmi://localhost:5001/GM");
             gm.load();
+
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         } catch (MalformedURLException e) {

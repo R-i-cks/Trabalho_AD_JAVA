@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Medico extends Profissional implements Serializable {
-    private static final long serialVersionUID = 3182835063939987618L;
     private String especialidade;
     private List<String> Consultas = new ArrayList<>();
     private List<String> Prescricoes = new ArrayList<>();

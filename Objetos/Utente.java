@@ -3,16 +3,14 @@ package Trabalho_AD_JAVA.Objetos;
 import java.io.Serializable;
 import java.util.*;
 public class Utente extends Person implements Serializable {
-
-    private static final long serialVersionUID = 4446909773217803202L;
     private String data_nascimento;
     private String genero;
-
     private List<String> Exames = new ArrayList<>();
     private List<String> Consultas = new ArrayList();
     private List<String> Prescricoes = new ArrayList<>();
     private List<String> Medicoes = new ArrayList();
 
+    public Utente() {}
     public List<String> getMedicoes() {
         return Medicoes;
     }

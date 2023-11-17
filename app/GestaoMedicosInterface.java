@@ -25,4 +25,5 @@ public interface GestaoMedicosInterface extends Remote{
     public void addExame(Exame e) throws RemoteException, IdAlreadyExists;
     public boolean alterarContacto_Profissional(String id, String contacto) throws RemoteException;
     public boolean alterarNome_Profissional(String id, String nome) throws RemoteException;
+    public boolean alterarEspecialidade_Medico(String id, String especialidade) throws RemoteException;
 }

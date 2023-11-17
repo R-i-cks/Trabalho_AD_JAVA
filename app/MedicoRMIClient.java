@@ -83,6 +83,7 @@ public class MedicoRMIClient {
                     System.out.println(gm.encontraExames_utente(idm));
                 } else if (op == 7) {
                     try {
+                        System.out.println("Insira os dados da seguinte forma: idconsulta, data, hora, upcs, idmedico, idutente");
                         String info = scanner.nextLine();
                         String[] dados = info.split(", ");
                         Consulta c = new Consulta(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]);

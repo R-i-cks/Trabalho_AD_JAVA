@@ -6,6 +6,12 @@ public class Person implements Serializable {
     private String id;
     private String nome;
     private String contacto;
+    public Person(){}
+    public Person(String id, String nome, String contacto) {
+        this.id=id;
+        this.nome=nome;
+        this.contacto=contacto;
+    }
 
     public String getNome() {
         return nome;

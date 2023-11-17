@@ -336,11 +336,15 @@ public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInt
     }
 
 
-    public synchronized void addUtente(Utente u) throws IdAlreadyExists {
+    public synchronized void addUtente(Utente u) throws RemoteException {
         if (!utentesPorId.containsKey(u.getId())) {
             utentesPorId.put(u.getId(), u);
         } else {
-            throw new IdAlreadyExists();
+            try {
+                throw new IdAlreadyExists();
+            } catch (IdAlreadyExists e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -580,11 +584,9 @@ public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInt
     public synchronized boolean alterarNome_Profissional(String id, String nome) throws RemoteException {
         boolean res;
         Profissional resultado = profissionaisPorId.get(id);
-
         if (resultado == null) {
             resultado = medicosPorId.get(id);
         }
-
         if (resultado != null) {
             resultado.setNome(nome);
             res = true;
@@ -658,6 +660,69 @@ public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInt
         return resultado;
     }
 
+    public synchronized Medico medicoComMaisPrescicoes() throws RemoteException {
+        int max = -1;
+        Medico resultado = null;
+        for (Medico m : medicosPorId.values()) {
+            if (m.getPrescricoes().size() > max) {
+                resultado = m;
+                max = m.getConsultas().size();
+            }
+        }
+        return resultado;
+    }
+
+
+    public synchronized String medicamentoMaisPrescrito() throws RemoteException {
+        String resultado;
+        String nome = null;
+        HashMap<String, Integer> prescricoesPorNome = new HashMap<>();
+        for (Prescricao p : prescricoesPorId.values()) {
+            if (!prescricoesPorNome.containsKey(p.getNome_medicamento())) {
+                prescricoesPorNome.put(p.getNome_medicamento(), 1);
+            }
+            else {
+                int c = prescricoesPorNome.get(p.getNome_medicamento())+1;
+                prescricoesPorNome.put(p.getNome_medicamento(), c);
+            }
+        }
+        int max=0;
+        for (Map.Entry<String, Integer> entry : prescricoesPorNome.entrySet()) {
+            if (entry.getValue()>max) {
+                max=entry.getValue();
+                nome=entry.getKey();
+            }
+        }
+        resultado="O medicamento mais prescrito é: "+ nome +" com " + max + " prescricoes!";
+        return resultado;
+    }
+
+
+    public synchronized int numeroConsultasPorUtente(String id) throws RemoteException {
+        int resultado;
+        Utente u = utentesPorId.get(id);
+        if (u != null) {
+            resultado=u.getConsultas().size();
+        } else {
+            throw new RemoteException();
+        }
+        return resultado;
+    }
+
+
+    public synchronized float PercentagemUtentesSemConsultas() throws RemoteException {
+        int count = 0;
+        int total = utentesPorId.size();
+        for (Utente u : utentesPorId.values()) {
+            if (u.getConsultas().size() == 0) {
+                count+=1;
+            }
+        }
+        float resultado = (count/total)*100;
+        return resultado;
+    }
+
+
     public synchronized int consultasNumDadoPeriodo(String inicial, String dfinal) throws RemoteException {
         int Num = 0;
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -678,97 +743,68 @@ public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInt
     }
 
     public synchronized void saveConsultas() {
-        File file = new File("Dados/consultas.csv");
         try {
-            FileWriter outputfile = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
-            List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"idcomsulta", "idm", "idu", "data", "hora", "UPCS"});
+            FileWriter outputfile = new FileWriter("Dados/consultas.csv");
+            String s="idcomsulta;idm;idu;data;hora;UPCS\n";
             for (Consulta c : consultasPorId.values()) {
-                data.add(new String[]{c.getId_consulta(), c.getIdMedico(), c.getId_utente(), c.getData(), c.getHora(), c.getUpcs()});
+                s=s+c.getId_consulta()+";"+ c.getIdMedico()+";"+c.getId_utente()+";"+c.getData()+";"+c.getHora()+";"+c.getUpcs()+"\n";
             }
-            writer.writeAll(data);
-            writer.close();
+            outputfile.write(s);
+            outputfile.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public synchronized void saveExames() {
-
-        File file2 = new File("Dados/exames.csv");
         try {
-            FileWriter outputfile = new FileWriter(file2);
-            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
-            List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"idexame", "idutente", "data_realizacao", "nome_exame", "resultado"});
+            FileWriter outputfile = new FileWriter("Dados/exames.csv");
+            String s= "idexame;idutente;data_realizacao;nome_exame;resultado\n";
             for (Exame e : examesPorId.values()) {
-                data.add(new String[]{e.getId_exame(), e.getId_utente(), e.getData_realizacao(), e.getNome_exame(), e.getResultado()});
+                s=s+e.getId_exame()+";"+ e.getId_utente()+";"+e.getData_realizacao()+";"+e.getNome_exame()+";"+ e.getResultado()+"\n";
             }
-            writer.writeAll(data);
-            writer.close();
+            outputfile.write(s);
+            outputfile.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public synchronized void saveFamiliar() {
-
-        File file3 = new File("Dados/familiar.csv");
         try {
-            FileWriter outputfile = new FileWriter(file3);
-            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
-            List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"id", "nome", "contacto", "idutentes"});
+            FileWriter outputfile = new FileWriter("Dados/familiar.csv");
+            String s="id;nome;contacto;idutentes\n";
             for (Familiar f : familiaresPorId.values()) {
-                System.out.println(f.getUtentes());
-                data.add(new String[]{f.getId(), f.getNome(), f.getContacto(),  String.join(",", f.getUtentes())});
+                s=f.getId()+";"+ f.getNome()+";"+ f.getContacto()+";"+ String.join(",", f.getUtentes())+"\n";
             }
-            writer.writeAll(data);
-            writer.close();
+            outputfile.write(s);
+            outputfile.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
     public synchronized void saveMedicoes() {
-        File file4 = new File("Dados/medicoes.csv");
         try {
-            FileWriter outputfile = new FileWriter(file4);
-            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
-            List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"idmedicao", "idutente", "tipo", "valor", "unidades"});
+            FileWriter outputfile = new FileWriter("Dados/medicoes.csv");
+            String s= "idmedicao;idutente;tipo;valor;unidades\n";
             for (Medicao m : medicoesPorId.values()) {
-                data.add(new String[]{m.getIdmedicao(), m.getId_utente(), m.getTipo(), m.getValor(), m.getUnidades()});
+                s=s+m.getIdmedicao()+";"+ m.getId_utente()+";"+m.getTipo()+";"+m.getValor()+";"+m.getUnidades()+"\n";
             }
-            writer.writeAll(data);
-            writer.close();
+            outputfile.write(s);
+            outputfile.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public synchronized void savePrescricoes() {
-
-        File file5 = new File("Dados/prescricao.csv");
         try {
-            FileWriter outputfile = new FileWriter(file5);
-            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
-            List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"idprescricao", "idmedico", "idutente", "nome_medicamento", "inicio_toma", "duracao_prescricao", "dose_diaria"});
+            FileWriter outputfile = new FileWriter("Dados/prescricao.csv");
+            String s = "idprescricao;idmedico;idutente;nome_medicamento;inicio_toma;duracao_prescricao;dose_diaria\n";
             for (Prescricao p : prescricoesPorId.values())
-                data.add(new String[]{p.getIdp(), p.getId_medico(), p.getId_utente(), p.getNome_medicamento(), p.getInicio_toma(), p.getDuracao(), p.getDose_diaria()});
-            writer.writeAll(data);
-            writer.close();
+                s=s+p.getIdp()+";"+p.getId_medico()+";"+p.getId_utente()+";"+p.getNome_medicamento()+";"+p.getInicio_toma()+";"+p.getDuracao()+";"+p.getDose_diaria()+"\n";
+            outputfile.write(s);
+            outputfile.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -776,20 +812,15 @@ public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInt
 
 
     public synchronized void saveProfissionais() {
-        File file6 = new File("Dados/profissionais.csv");
         try {
-            FileWriter outputfile = new FileWriter(file6);
-            CSVWriter writer = new CSVWriter(outputfile, ';', CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
-            List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"id", "type", "nome", "contacto", "especialidade"});
+            FileWriter outputfile = new FileWriter("Dados/profissionais.csv");
+            String s = "id;type;nome;contacto;especialidade\n";
             for (Profissional p : profissionaisPorId.values())
-                data.add(new String[]{p.getId(), p.getType(), p.getNome(), p.getContacto(), String.valueOf(0)});
+                s=s+p.getId()+";"+p.getType()+";"+ p.getNome()+";"+p.getContacto()+";"+String.valueOf(0) +"\n";
             for (Medico m : medicosPorId.values())
-                data.add(new String[]{m.getId(), m.getType(), m.getNome(), m.getContacto(), m.getEspecialidade()});
-            writer.writeAll(data);
-            writer.close();
+                s=s+m.getId()+";"+m.getType()+";"+m.getNome()+";"+m.getContacto()+";"+m.getEspecialidade()+"\n";
+            outputfile.write(s);
+            outputfile.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -797,23 +828,17 @@ public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInt
 
 
     public synchronized void saveUtentes() {
-        File file7 = new File("Dados/utentes.csv");
-        try {
-            FileWriter outputfile = new FileWriter(file7);
-            CSVWriter writer = new CSVWriter(outputfile, ';',CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END);
-            List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"id","nome", "contacto","genero","data_nascimento"});
-            for (Utente u : utentesPorId.values())
-                data.add(new String[]{u.getId(), u.getNome(), u.getContacto(), u.getGenero(), u.getData_nascimento()});
-            writer.writeAll(data);
-            writer.close();
+        try {FileWriter outputfile = new FileWriter("Dados/utentes.csv");
+            String s = "id;nome;contacto;genero;data_nascimento\n";
+            for (Utente u : utentesPorId.values()) {
+                s=s+u.getId()+";"+ u.getNome()+";"+u.getContacto()+";"+ u.getGenero()+";"+u.getData_nascimento()+"\n";
+            }
+            outputfile.write(s);
+            outputfile.flush();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 }

@@ -3,7 +3,6 @@ package Trabalho_AD_JAVA.Gestao;
 import Trabalho_AD_JAVA.Objetos.*;
 import Trabalho_AD_JAVA.app.*;
 import Trabalho_AD_JAVA.exception.IdAlreadyExists;
-import com.opencsv.CSVWriter;
 
 import java.rmi.RemoteException;
 import java.io.FileWriter;
@@ -774,7 +773,7 @@ public class GestaoDados extends UnicastRemoteObject implements GestaoUtentesInt
             FileWriter outputfile = new FileWriter("Dados/familiar.csv");
             String s="id;nome;contacto;idutentes\n";
             for (Familiar f : familiaresPorId.values()) {
-                s=f.getId()+";"+ f.getNome()+";"+ f.getContacto()+";"+ String.join(",", f.getUtentes())+"\n";
+                s=s+f.getId()+";"+ f.getNome()+";"+ f.getContacto()+";"+ String.join(",", f.getUtentes())+"\n";
             }
             outputfile.write(s);
             outputfile.flush();
